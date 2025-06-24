@@ -21,7 +21,7 @@ const Dashboard = () => {
   }, [navigate]);
 
   const fetchData = async () => {
-    const res = await axios.get("http://localhost:5000/api/data");
+    const res = await axios.get("https://residex.onrender.com/api/data");
     setData(res.data);
   };
 
