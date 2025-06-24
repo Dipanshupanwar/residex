@@ -1,8 +1,7 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const residentSchema = new mongoose.Schema({
   flatNo: String,
-  residentType: String,
   name: String,
   mobile: String,
   email: String,
@@ -11,6 +10,9 @@ const residentSchema = new mongoose.Schema({
   fourWheelerNumber: String,
   twoWheeler: Boolean,
   twoWheelerNumber: String,
+  residentType: String,
+}, {
+  timestamps: true  // ✅ This adds createdAt and updatedAt automatically
 });
 
-module.exports = mongoose.model('Resident', residentSchema);
+module.exports = mongoose.model("Resident", residentSchema);

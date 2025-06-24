@@ -40,10 +40,19 @@ router.get('/search/:flatNo', async (req, res) => {
 });
 
 // Update data
-router.put('/update/:_id', async (req, res) => {
-  await Resident.findByIdAndUpdate(req.params.id, req.body);
-  res.json({ message: "Updated" });
+router.put('/update/:id', async (req, res) => {
+  try {
+    console.log("Updating ID:", req.params.id);
+    console.log("Payload:", req.body);
+    await Resident.findByIdAndUpdate(req.params.id, req.body);
+    res.json({ message: "Updated" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Update failed" });
+  }
 });
+
+
 
 // Admin login
 router.post('/admin-login', (req, res) => {
