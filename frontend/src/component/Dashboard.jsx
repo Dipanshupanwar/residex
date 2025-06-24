@@ -31,7 +31,7 @@ const Dashboard = () => {
   };
 
   const handleUpdate = async () => {
-    await axios.put(`http://localhost:5000/api/update/${editId}`, form);
+    await axios.put(`https://residex.onrender.com/api/update/${editId}`, form);
     setEditId(null);
     fetchData();
   };
@@ -39,7 +39,7 @@ const Dashboard = () => {
   const handleDelete = async (id) => {
     const confirm = window.confirm("Are you sure you want to delete this entry?");
     if (confirm) {
-   await axios.delete(`http://localhost:5000/api/delete/${id}`);
+   await axios.delete(`https://residex.onrender.com/api/delete/${id}`);
    fetchData();
     }
   };

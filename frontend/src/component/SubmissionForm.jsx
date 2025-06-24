@@ -26,7 +26,7 @@ const SubmissionForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/submit", form);
+      await axios.post("https://residex.onrender.com/api/submit", form);
       alert("Form submitted successfully!");
       setForm({
         flatNo: "",
