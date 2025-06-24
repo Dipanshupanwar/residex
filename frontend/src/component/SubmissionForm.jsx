@@ -22,11 +22,12 @@ const SubmissionForm = () => {
     const { name, value, type, checked } = e.target;
     setForm({ ...form, [name]: type === "checkbox" ? checked : value });
   };
+  const baseURL = import.meta.env.VITE_path
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("https://residex.onrender.com/api/submit", form);
+await axios.post(`${baseURL}/api/submit`, form);
       alert("Form submitted successfully!");
       setForm({
         flatNo: "",

@@ -5,6 +5,7 @@ import axios from "axios";
 const AdminLogin = () => {
   const [admin, setAdmin] = useState({ email: "", password: "" });
   const navigate = useNavigate();
+  const baseURL = import.meta.env.VITE_path
 
   // If already logged in, redirect automatically
   useEffect(() => {
@@ -21,7 +22,7 @@ const AdminLogin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://residex.onrender.com/api/admin-login", admin);
+      const res = await axios.post(`${baseURL}/api/admin-login`, admin); 
       if (res.data.success) {
         // Save a flag in localStorage
         localStorage.setItem("adminAuth", "true");

@@ -9,6 +9,7 @@ const Dashboard = () => {
   const [editId, setEditId] = useState(null);
   const [search, setSearch] = useState("");
   const [form, setForm] = useState({});
+  const baseURL = import.meta.env.VITE_path
 
   // Check if admin is logged in
   useEffect(() => {
@@ -21,7 +22,7 @@ const Dashboard = () => {
   }, [navigate]);
 
   const fetchData = async () => {
-    const res = await axios.get("https://residex.onrender.com/api/data");
+const res = await axios.get(`${baseURL}/api/data`);
     setData(res.data);
   };
 
@@ -31,16 +32,24 @@ const Dashboard = () => {
   };
 
   const handleUpdate = async () => {
-    await axios.put(`https://residex.onrender.com/api/update/${editId}`, form);
-    setEditId(null);
-    fetchData();
+    try {
+      const { _id, __v, ...cleanForm } = form;
+const res = await axios.put(`${baseURL}/api/update/${editId}`, cleanForm);
+      console.log("Updated:", res.data);
+      setEditId(null);
+      fetchData();
+    } catch (err) {
+      console.error("Update failed:", err);
+      alert("Update failed");
+    }
   };
+
 
   const handleDelete = async (id) => {
     const confirm = window.confirm("Are you sure you want to delete this entry?");
     if (confirm) {
-   await axios.delete(`https://residex.onrender.com/api/delete/${id}`);
-   fetchData();
+      await axios.delete(`${baseURL}/api/delete/${id}`);
+      fetchData();
     }
   };
 
@@ -105,6 +114,7 @@ const Dashboard = () => {
                 "4W Number",
                 "2W",
                 "2W Number",
+                "Date",
                 "Actions",
               ].map((h, i) => (
                 <th key={i} className="p-2 border whitespace-nowrap">{h}</th>
@@ -126,9 +136,14 @@ const Dashboard = () => {
                     <td><input value={form.fourWheelerNumber || ""} onChange={(e) => setForm({ ...form, fourWheelerNumber: e.target.value })} className="w-full border px-1" /></td>
                     <td><input type="checkbox" checked={form.twoWheeler} onChange={(e) => setForm({ ...form, twoWheeler: e.target.checked })} /></td>
                     <td><input value={form.twoWheelerNumber || ""} onChange={(e) => setForm({ ...form, twoWheelerNumber: e.target.value })} className="w-full border px-1" /></td>
+                    <td className="border px-2">
+                      {item.createdAt ? new Date(item.createdAt).toLocaleDateString() : "-"}
+                    </td>
                     <td className="space-x-2">
                       <button onClick={handleUpdate} className="text-green-600">Save</button>
                     </td>
+
+
                   </>
                 ) : (
                   <>
@@ -142,6 +157,9 @@ const Dashboard = () => {
                     <td className="border px-2">{item.fourWheelerNumber || "-"}</td>
                     <td className="border px-2">{item.twoWheeler ? "Yes" : "No"}</td>
                     <td className="border px-2">{item.twoWheelerNumber || "-"}</td>
+                    <td className="border px-2">
+                      {item.createdAt ? new Date(item.createdAt).toLocaleDateString() : "-"}
+                    </td>
                     <td className="border px-2 space-x-2">
                       <button onClick={() => handleEdit(item)} className="text-blue-600">Edit</button>
                       <button onClick={() => handleDelete(item._id)} className="text-red-600">Delete</button>
