@@ -9,9 +9,8 @@ const Dashboard = () => {
   const [editId, setEditId] = useState(null);
   const [search, setSearch] = useState("");
   const [form, setForm] = useState({});
-  const baseURL = import.meta.env.VITE_path
+  const baseURL = import.meta.env.VITE_path;
 
-  // Check if admin is logged in
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("adminAuth");
     if (!isLoggedIn) {
@@ -22,7 +21,7 @@ const Dashboard = () => {
   }, [navigate]);
 
   const fetchData = async () => {
-const res = await axios.get(`${baseURL}/api/data`);
+    const res = await axios.get(`${baseURL}/api/data`);
     setData(res.data);
   };
 
@@ -34,7 +33,7 @@ const res = await axios.get(`${baseURL}/api/data`);
   const handleUpdate = async () => {
     try {
       const { _id, __v, ...cleanForm } = form;
-const res = await axios.put(`${baseURL}/api/update/${editId}`, cleanForm);
+      const res = await axios.put(`${baseURL}/api/update/${editId}`, cleanForm);
       console.log("Updated:", res.data);
       setEditId(null);
       fetchData();
@@ -43,7 +42,6 @@ const res = await axios.put(`${baseURL}/api/update/${editId}`, cleanForm);
       alert("Update failed");
     }
   };
-
 
   const handleDelete = async (id) => {
     const confirm = window.confirm("Are you sure you want to delete this entry?");
@@ -72,15 +70,25 @@ const res = await axios.put(`${baseURL}/api/update/${editId}`, cleanForm);
   return (
     <div className="p-6">
       {/* Header */}
-      <div className="flex justify-between items-center mb-6 flex-wrap gap-3">
-        <h2 className="text-2xl font-bold text-blue-700">Admin Dashboard</h2>
-        <button
-          onClick={handleLogout}
-          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-        >
-          Logout
-        </button>
-      </div>
+    <div className="flex justify-between items-center mb-6 flex-wrap gap-3">
+  <h2 className="text-2xl font-bold text-blue-700">Admin Dashboard</h2>
+
+  <div className="flex gap-2">
+    <button
+      onClick={() => navigate("/")}
+      className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+    >
+      Go to Form
+    </button>
+    <button
+      onClick={handleLogout}
+      className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+    >
+      Logout
+    </button>
+  </div>
+</div>
+
 
       {/* Search and Export */}
       <div className="flex justify-between items-center mb-4 flex-wrap gap-3">
@@ -105,6 +113,7 @@ const res = await axios.put(`${baseURL}/api/update/${editId}`, cleanForm);
             <tr className="bg-gray-200 text-xs sm:text-sm">
               {[
                 "Flat No",
+                "Tower",
                 "Type",
                 "Name",
                 "Mobile",
@@ -117,7 +126,9 @@ const res = await axios.put(`${baseURL}/api/update/${editId}`, cleanForm);
                 "Date",
                 "Actions",
               ].map((h, i) => (
-                <th key={i} className="p-2 border whitespace-nowrap">{h}</th>
+                <th key={i} className="p-2 border whitespace-nowrap">
+                  {h}
+                </th>
               ))}
             </tr>
           </thead>
@@ -126,28 +137,100 @@ const res = await axios.put(`${baseURL}/api/update/${editId}`, cleanForm);
               <tr key={item._id} className="border">
                 {editId === item._id ? (
                   <>
-                    <td><input value={form.flatNo} onChange={(e) => setForm({ ...form, flatNo: e.target.value })} className="w-full border px-1" /></td>
-                    <td><input value={form.residentType} onChange={(e) => setForm({ ...form, residentType: e.target.value })} className="w-full border px-1" /></td>
-                    <td><input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="w-full border px-1" /></td>
-                    <td><input value={form.mobile} onChange={(e) => setForm({ ...form, mobile: e.target.value })} className="w-full border px-1" /></td>
-                    <td><input value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="w-full border px-1" /></td>
-                    <td><input type="checkbox" checked={form.vehicle} onChange={(e) => setForm({ ...form, vehicle: e.target.checked })} /></td>
-                    <td><input type="checkbox" checked={form.fourWheeler} onChange={(e) => setForm({ ...form, fourWheeler: e.target.checked })} /></td>
-                    <td><input value={form.fourWheelerNumber || ""} onChange={(e) => setForm({ ...form, fourWheelerNumber: e.target.value })} className="w-full border px-1" /></td>
-                    <td><input type="checkbox" checked={form.twoWheeler} onChange={(e) => setForm({ ...form, twoWheeler: e.target.checked })} /></td>
-                    <td><input value={form.twoWheelerNumber || ""} onChange={(e) => setForm({ ...form, twoWheelerNumber: e.target.value })} className="w-full border px-1" /></td>
+                    <td>
+                      <input
+                        value={form.flatNo}
+                        onChange={(e) => setForm({ ...form, flatNo: e.target.value })}
+                        className="w-full border px-1"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        value={form.towerName}
+                        onChange={(e) => setForm({ ...form, towerName: e.target.value })}
+                        className="w-full border px-1"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        value={form.residentType}
+                        onChange={(e) => setForm({ ...form, residentType: e.target.value })}
+                        className="w-full border px-1"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        value={form.name}
+                        onChange={(e) => setForm({ ...form, name: e.target.value })}
+                        className="w-full border px-1"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        value={form.mobile}
+                        onChange={(e) => setForm({ ...form, mobile: e.target.value })}
+                        className="w-full border px-1"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        value={form.email}
+                        onChange={(e) => setForm({ ...form, email: e.target.value })}
+                        className="w-full border px-1"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={form.vehicle}
+                        onChange={(e) => setForm({ ...form, vehicle: e.target.checked })}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={form.fourWheeler}
+                        onChange={(e) => setForm({ ...form, fourWheeler: e.target.checked })}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        value={form.fourWheelerNumber || ""}
+                        onChange={(e) =>
+                          setForm({ ...form, fourWheelerNumber: e.target.value })
+                        }
+                        className="w-full border px-1"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={form.twoWheeler}
+                        onChange={(e) => setForm({ ...form, twoWheeler: e.target.checked })}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        value={form.twoWheelerNumber || ""}
+                        onChange={(e) =>
+                          setForm({ ...form, twoWheelerNumber: e.target.value })
+                        }
+                        className="w-full border px-1"
+                      />
+                    </td>
                     <td className="border px-2">
                       {item.createdAt ? new Date(item.createdAt).toLocaleDateString() : "-"}
                     </td>
                     <td className="space-x-2">
-                      <button onClick={handleUpdate} className="text-green-600">Save</button>
+                      <button onClick={handleUpdate} className="text-green-600">
+                        Save
+                      </button>
                     </td>
-
-
                   </>
                 ) : (
                   <>
                     <td className="border px-2">{item.flatNo}</td>
+                    <td className="border px-2">{item.towerName}</td>
                     <td className="border px-2">{item.residentType}</td>
                     <td className="border px-2">{item.name}</td>
                     <td className="border px-2">{item.mobile}</td>
@@ -161,8 +244,12 @@ const res = await axios.put(`${baseURL}/api/update/${editId}`, cleanForm);
                       {item.createdAt ? new Date(item.createdAt).toLocaleDateString() : "-"}
                     </td>
                     <td className="border px-2 space-x-2">
-                      <button onClick={() => handleEdit(item)} className="text-blue-600">Edit</button>
-                      <button onClick={() => handleDelete(item._id)} className="text-red-600">Delete</button>
+                      <button onClick={() => handleEdit(item)} className="text-blue-600">
+                        Edit
+                      </button>
+                      <button onClick={() => handleDelete(item._id)} className="text-red-600">
+                        Delete
+                      </button>
                     </td>
                   </>
                 )}

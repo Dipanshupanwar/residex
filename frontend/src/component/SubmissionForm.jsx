@@ -7,6 +7,7 @@ const SubmissionForm = () => {
 
   const [form, setForm] = useState({
     flatNo: "",
+    towerName: "",
     residentType: "",
     name: "",
     mobile: "",
@@ -22,15 +23,17 @@ const SubmissionForm = () => {
     const { name, value, type, checked } = e.target;
     setForm({ ...form, [name]: type === "checkbox" ? checked : value });
   };
-  const baseURL = import.meta.env.VITE_path
+
+  const baseURL = import.meta.env.VITE_path;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-await axios.post(`${baseURL}/api/submit`, form);
+      await axios.post(`${baseURL}/api/submit`, form);
       alert("Form submitted successfully!");
       setForm({
         flatNo: "",
+        towerName: "",
         residentType: "",
         name: "",
         mobile: "",
@@ -50,11 +53,27 @@ await axios.post(`${baseURL}/api/submit`, form);
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-blue-100 p-4">
       <div className="w-full max-w-3xl bg-white p-8 rounded-xl shadow-lg">
-        <h2 className="text-2xl font-bold text-center text-blue-700 mb-6">
-          Resident Vehicle Submission Form
-        </h2>
+        
+        {/* Logo and Heading Section */}
+        <div className="flex items-center justify-between mb-6">
+          <img
+            src="public/apollo-bd-city.jpg" // Update with correct image path
+            alt="Apollo Logo"
+            className="h-12 w-auto"
+          />
+          <div className="text-right w-full">
+            <h1 className="text-2xl font-bold text-blue-700">
+              APOLLO DB City
+            </h1>
+            <h2 className="text-lg font-semibold text-blue-600">
+              Resident Details Submission Form
+            </h2>
+          </div>
+        </div>
 
+        {/* Form Starts */}
         <form onSubmit={handleSubmit} className="grid gap-6 sm:grid-cols-2">
+
           <div className="sm:col-span-2">
             <input
               type="text"
@@ -65,6 +84,25 @@ await axios.post(`${baseURL}/api/submit`, form);
               className="w-full px-4 py-2 border rounded focus:outline-blue-500"
               required
             />
+          </div>
+
+          <div className="sm:col-span-2">
+            <select
+              name="towerName"
+              value={form.towerName}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border rounded text-gray-600 focus:outline-blue-500"
+              required
+            >
+              <option value="">Select Tower Name</option>
+              <option value="aurum-1">aurum-1</option>
+              <option value="aurum-2">aurum-2</option>
+              <option value="eldora-1">eldora-1</option>
+              <option value="oracia-1">oracia-1</option>
+              <option value="orville-1">orville-1</option>
+              <option value="orville-2">orville-2</option>
+              <option value="cressida-1">cressida-1</option>
+            </select>
           </div>
 
           <div className="sm:col-span-2">
@@ -99,6 +137,7 @@ await axios.post(`${baseURL}/api/submit`, form);
             className="w-full px-4 py-2 border rounded focus:outline-blue-500"
             required
           />
+
           <div className="sm:col-span-2">
             <input
               type="email"
@@ -131,6 +170,7 @@ await axios.post(`${baseURL}/api/submit`, form);
               />
               Has Four Wheeler
             </label>
+
             {form.fourWheeler && (
               <input
                 type="text"
@@ -152,6 +192,7 @@ await axios.post(`${baseURL}/api/submit`, form);
               />
               Has Two Wheeler
             </label>
+
             {form.twoWheeler && (
               <input
                 type="text"

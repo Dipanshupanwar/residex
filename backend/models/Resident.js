@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 
 const residentSchema = new mongoose.Schema({
   flatNo: String,
+  towerName: String,
+  residentType: String, // ✅ Add this field to match your frontend
   name: String,
   mobile: String,
   email: String,
@@ -12,7 +14,7 @@ const residentSchema = new mongoose.Schema({
   twoWheelerNumber: String,
   residentType: String,
 }, {
-  timestamps: true  // ✅ This adds createdAt and updatedAt automatically
+  timestamps: true // Automatically adds createdAt and updatedAt
 });
 
 module.exports = mongoose.model("Resident", residentSchema);
