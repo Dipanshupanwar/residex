@@ -57,7 +57,7 @@ const SubmissionForm = () => {
         {/* Logo and Heading Section */}
         <div className="flex items-center justify-between mb-6">
           <img
-            src="public/apollo-bd-city.jpg" // Update with correct image path
+            src="/apollo-bd-city.jpg" // Update with correct image path
             alt="Apollo Logo"
             className="h-12 w-auto"
           />
